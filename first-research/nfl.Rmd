@@ -1,0 +1,56 @@
+---
+title: "nfl_QB"
+output: html_document
+---
+
+```{r preparando ambiente}
+library(nflscrapR)
+library(ggplot2)
+```
+
+```{r}
+game_ids <- extracting_gameids(2016, playoffs = FALSE)
+players2016 <- season_player_game(2016)
+
+qbs_2016 <- subset(players2016, pass.att > 3)
+```
+
+```{r}
+qbs_2016$week <- ifelse(qbs_2016$date == "2016-09-08" | qbs_2016$date == "2016-09-11" | qbs_2016$date == "2016-09-12", 1, ifelse(qbs_2016$date == "2016-09-15" | qbs_2016$date == "2016-09-18" | qbs_2016$date == "2016-09-19", 2, ifelse(qbs_2016$date == "2016-09-22" | qbs_2016$date == "2016-09-25" | qbs_2016$date == "2016-09-26", 3, ifelse(qbs_2016$date == "2016-09-29" | qbs_2016$date == "2016-10-02" | qbs_2016$date == "2016-10-03", 4, ifelse(qbs_2016$date == "2016-10-06" | qbs_2016$date == "2016-10-09" | qbs_2016$date == "2016-10-10", 5, ifelse(qbs_2016$date == "2016-10-13" | qbs_2016$date == "2016-10-16" | qbs_2016$date == "2016-10-17", 6, ifelse(qbs_2016$date == "2016-10-20" | qbs_2016$date == "2016-10-23" | qbs_2016$date == "2016-10-24", 7, ifelse(qbs_2016$date == "2016-10-27" | qbs_2016$date == "2016-10-30" | qbs_2016$date == "2016-10-31", 8, ifelse(qbs_2016$date == "2016-11-03" | qbs_2016$date == "2016-11-06" | qbs_2016$date == "2016-11-07", 9, ifelse(qbs_2016$date == "2016-11-10" | qbs_2016$date == "2016-11-13" | qbs_2016$date == "2016-11-14", 10, ifelse(qbs_2016$date == "2016-11-17" | qbs_2016$date == "2016-11-20" | qbs_2016$date == "2016-11-21", 11, ifelse(qbs_2016$date == "2016-11-24" | qbs_2016$date == "2016-11-27" | qbs_2016$date == "2016-11-28", 12, ifelse(qbs_2016$date == "2016-12-01" | qbs_2016$date == "2016-12-04" | qbs_2016$date == "2016-12-05", 13, ifelse(qbs_2016$date == "2016-12-8" | qbs_2016$date == "2016-12-11" | qbs_2016$date == "2016-12-12", 14, ifelse(qbs_2016$date == "2016-12-15" | qbs_2016$date == "2016-12-17" | qbs_2016$date == "2016-12-18" | qbs_2016$date == "2016-12-19", 15, ifelse(qbs_2016$date == "2016-12-22" | qbs_2016$date == "2016-12-24" | qbs_2016$date == "2016-12-25" | qbs_2016$date == "2016-12-26", 16, 17))))))))))))))))
+```
+
+
+
+
+
+```{r}
+tb12 <- subset(qbs_2016, name == "T.Brady" | name == "M.Ryan")
+tb12$name <- factor(tb12$name)
+```
+
+```{r}
+ggplot(aes(x = week, y = passyds, group = name, colour = name), data = tb12) +
+  geom_line() +
+  geom_point() +
+  scale_x_continuous(breaks = seq(1, 17)) +
+  scale_y_continuous(breaks = seq(0, 500, 50)) +
+  ylab("Número total de jardas aéreas") +
+  xlab("Semanas") +
+  ggtitle("Comparativo de jardas aéreas a cada semana")
+  
+```
+
+
+```{r}
+write.csv(qbs_2016, "Qbs_2016.csv", row.names = FALSE)
+write.csv(players2016, "Players2016.csv", row.names = FALSE)
+```
+
+```{r}
+qbb <- read.csv("~/workspace/Qbs_2016.csv")
+```
+
+
+
+
+
